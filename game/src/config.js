@@ -1,61 +1,85 @@
-// Every tuning number and colour in one place. The playfield is a fixed 1280x720 logical area;
-// the renderer scales it to the window, so no rule below depends on the screen size.
+// Neon Harbor Heist — all tuning numbers and colours in one place.
+// The world is a fixed 2400x1800 city; the renderer shows a 1280x720 camera
+// window that follows the player, so nothing below depends on the screen size.
 
-export const FIELD = { width: 1280, height: 720, groundY: 664 };
+export const WORLD = { width: 2400, height: 1800 };
 
-/** The simulation's fixed step, in seconds: 60 updates a second whatever the display's rate. */
+// Roads: a grid of avenues. Cars drive on them, pedestrians on the sidewalks.
+export const ROADS_X = [200, 600, 1000, 1400, 1800, 2200];
+export const ROADS_Y = [200, 550, 900, 1250, 1600];
+export const ROAD_W = 96;
+
+// Harbour water occupies the south edge; the market and police station sit
+// on fixed plazas so missions always have a real place to go.
+export const HARBOR = { y: 1650, dockX: 950, dockY: 1580 };
+export const MARKET = { x: 1400, y: 550 };
+export const GARAGE = { x: 600, y: 1250 };
+export const POLICE_STATION = { x: 2200, y: 200 };
+
 export const STEP = 1 / 60;
 
 export const PLAYER = {
-  width: 72,
-  height: 24,
-  speed: 560,
-  invulnerable: 1.5,
+  radius: 13,
+  walkSpeed: 230,
+  punchRange: 36,
+  punchDamage: 25,
+  punchCooldown: 0.45,
 };
 
-export const LIVES = 3;
-
-export const BLOCK = {
-  minWidth: 40,
-  maxWidth: 110,
-  height: 36,
-  speed: 240,
-  speedPerLevel: 30,
-  speedJitter: 90,
-  interval: 0.55,
-  intervalScale: 0.88,
-  minInterval: 0.14,
-  dodgePoints: 1,
+export const CAR = {
+  width: 46,
+  length: 78,
+  accel: 420,
+  brake: 700,
+  maxSpeed: 460,
+  maxReverse: 160,
+  turnRate: 2.6,
 };
 
-export const COIN = {
-  size: 24,
-  speed: 190,
-  speedPerLevel: 14,
-  interval: 1.4,
-  intervalJitter: 0.8,
-  points: 10,
+export const HEALTH = { max: 100 };
+
+export const WANTED = {
+  max: 5,
+  decayDelay: 8,
+  decayRate: 0.25,
+  maxPolice: 5,
 };
 
-/** Seconds of play per level, and the last level: speeds and spawn rates stop growing there. */
-export const LEVEL = { seconds: 12, max: 12 };
+export const MISSION = {
+  cargoPay: 300,
+  getawayPay: 250,
+  sellPay: 150,
+  getawaySeconds: 15,
+};
 
-/** How many falling things can exist at once; the pool is allocated once, at boot. */
-export const POOL_SIZE = 64;
+export const PRICES = { armor: 200, engine: 300, repair: 100 };
 
 export const PALETTE = {
-  backdrop: '#11141b',
-  sky: '#1b1f2a',
-  ground: '#2a3040',
-  player: '#4fc3f7',
-  block: '#e5534b',
-  coin: '#f2c94c',
-  panel: '#252b38',
+  backdrop: '#070a14',
+  ground: '#10182b',
+  road: '#1a2233',
+  roadLine: '#3d4a63',
+  sidewalk: '#232c42',
+  water: '#0a2e4d',
+  waterLine: '#1b6ea8',
+  building: '#1c2438',
+  buildingEdge: '#2f3f63',
+  neonPink: '#ff2e88',
+  neonCyan: '#22d3ee',
+  neonYellow: '#facc15',
+  neonGreen: '#4ade80',
+  player: '#4ade80',
+  police: '#3b82f6',
+  policeLight: '#ef4444',
+  traffic: '#e2e8f0',
+  ped: '#fbbf24',
+  panel: 'rgba(10, 14, 26, 0.82)',
   text: '#eef1f5',
   muted: '#8b93a3',
 };
 
 export const FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif';
 
-/** Where the best score is kept between visits (this browser only). */
-export const BEST_KEY = 'block-dodger.best';
+/** Where the save (money, reputation, upgrades, best) is kept between visits. */
+export const SAVE_KEY = 'neon-harbor-heist.save.v1';
+export const BEST_KEY = 'neon-harbor-heist.best.v1';
